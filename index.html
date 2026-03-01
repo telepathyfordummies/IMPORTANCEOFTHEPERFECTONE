@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Importance of the Perfect One</title>
+  <style>
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: #f5f5f5;
+      font-family: "Courier New", monospace;
+      color: #4a90e2;
+    }
+
+    .time-display {
+      font-size: 72px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 12px 28px;
+      font-size: 18px;
+      margin: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #4a90e2;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+<p>Start the stopwatch.</p>
+  <p>Stop it at exactly 00:01.00</p>
+  <div class="time-display" id="timer">00:00</div>
+  <div>
+    <button onclick="startTimer()">START</button>
+    <button onclick="stopTimer()">STOP</button>
+    <button onclick="resetTimer()">REFRESH</button>
+  </div>
+
+  <script>
+    let startTime = 0;
+    let elapsed = 0;
+    let timerInterval;
+
+    const timerDisplay = document.getElementById("timer");
+    const targetSeconds = 60; // exactly 01:00
+
+    function formatTime(ms) {
+      let totalSeconds = Math.floor(ms / 1000);
+      let minutes = Math.floor(totalSeconds / 60);
+      let seconds = totalSeconds % 60;
+      let centiseconds = Math.floor((ms % 1000) / 10);
+      return `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+    }
+
+    function updateDisplay() {
+      let now = Date.now();
+      elapsed = now - startTime;
+      timerDisplay.textContent = formatTime(elapsed);
+    }
+
+    function startTimer() {
+      if (!timerInterval) {
+        startTime = Date.now() - elapsed;
+        timerInterval = setInterval(updateDisplay, 10);
+      }
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+
+        // Check if exactly 01:00 (60,000 ms)
+        if (elapsed >= 59990 && elapsed <= 60100) { // small tolerance ±10ms
+          window.location.href = "https://example.com"; // ← replace with  target
+        }
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      elapsed = 0;
+      timerDisplay.textContent = "00:00";
+    }
+  </script>
+
+</body>
+</html>
