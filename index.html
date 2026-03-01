@@ -55,16 +55,16 @@
     const toggleBtn = document.getElementById("toggleBtn");
 
     function formatTime(ms) {
-      let totalCentiseconds = Math.floor(ms / 10);
-      let minutes = Math.floor(totalCentiseconds / 6000);
-      let seconds = Math.floor((totalCentiseconds % 6000) / 100);
-      let centiseconds = totalCentiseconds % 100;
-      return `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}:${String(centiseconds).padStart(2,'0')}`;
+      let totalSeconds = Math.floor(ms / 1000);
+      let minutes = Math.floor(totalSeconds / 60);
+      let seconds = totalSeconds % 60;
+
+      // Only show centiseconds as 00
+      return `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}:00`;
     }
 
     function updateDisplay() {
-      let now = Date.now();
-      elapsed = now - startTime;
+      elapsed = Date.now() - startTime;
       timerDisplay.textContent = formatTime(elapsed);
     }
 
@@ -82,13 +82,10 @@
         running = false;
         toggleBtn.textContent = "START";
 
-        // Check if the display is anywhere in the 01:00 second
-        let totalCentiseconds = Math.floor(elapsed / 10);
-        let minutes = Math.floor(totalCentiseconds / 6000);
-        let seconds = Math.floor((totalCentiseconds % 6000) / 100);
-
-        if (minutes === 0 && seconds === 1) {
-          window.location.href = "https://example.com"; // Replace with target
+        // Check if elapsed is within the 1-second mark
+        // i.e., from 1000ms up to but not including 2000ms ughghhhghg
+        if (elapsed >= 1000 && elapsed < 2000) {
+          window.location.href = "https://example.com"; // Replace with target when ao3 comes back... 
         }
       }
     }
