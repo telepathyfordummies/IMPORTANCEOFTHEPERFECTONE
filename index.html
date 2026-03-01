@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Precision Stopwatch Challenge</title>
+  <title>Importance of the Perfect One</title>
   <style>
     body {
       height: 100vh;
@@ -41,8 +41,7 @@
 
   <div class="time-display" id="timer">00:00:00</div>
   <div>
-    <button onclick="startTimer()">START</button>
-    <button onclick="stopTimer()">STOP</button>
+    <button id="toggleBtn">START</button>
     <button onclick="resetTimer()">REFRESH</button>
   </div>
 
@@ -50,8 +49,10 @@
     let startTime = 0;
     let elapsed = 0;
     let timerInterval;
+    let running = false;
 
     const timerDisplay = document.getElementById("timer");
+    const toggleBtn = document.getElementById("toggleBtn");
 
     function formatTime(ms) {
       let totalCentiseconds = Math.floor(ms / 10);
@@ -67,20 +68,22 @@
       timerDisplay.textContent = formatTime(elapsed);
     }
 
-    function startTimer() {
-      if (!timerInterval) {
+    function toggleTimer() {
+      if (!running) {
+        // Start
         startTime = Date.now() - elapsed;
         timerInterval = setInterval(updateDisplay, 10);
-      }
-    }
-
-    function stopTimer() {
-      if (timerInterval) {
+        toggleBtn.textContent = "STOP";
+        running = true;
+      } else {
+        // Stop
         clearInterval(timerInterval);
         timerInterval = null;
+        running = false;
+        toggleBtn.textContent = "START";
 
-        // Check if exactly 01:00.00 (60,000ms)
-        if (elapsed >= 59990 && elapsed <= 60010) { // ±10ms tolerance
+        // Check if exactly 01:00.00
+        if (elapsed >= 59990 && elapsed <= 60010) {
           window.location.href = "https://example.com"; // Replace with your target
         }
       }
@@ -91,7 +94,11 @@
       timerInterval = null;
       elapsed = 0;
       timerDisplay.textContent = "00:00:00";
+      running = false;
+      toggleBtn.textContent = "START";
     }
+
+    toggleBtn.addEventListener("click", toggleTimer);
   </script>
 
 </body>
