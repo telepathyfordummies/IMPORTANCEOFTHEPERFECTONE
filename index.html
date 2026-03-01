@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Importance of the Perfect One</title>
+  <title>Precision Stopwatch Challenge</title>
   <style>
     body {
       height: 100vh;
@@ -81,9 +81,9 @@
         running = false;
         toggleBtn.textContent = "START";
 
-        // Redirect only if elapsed is within 00:01:00 - 00:01:01
-        if (elapsed >= 1000 && elapsed < 1100) {
-          window.location.href = "https://example.com"; // Replace with target when ao3 comes backuhhhhh 
+        // Check if display is exactly "00:01:00"
+        if (timerDisplay.textContent === "00:01:00") {
+          window.location.href = "https://example.com"; // Replace with your target
         }
       }
     }
