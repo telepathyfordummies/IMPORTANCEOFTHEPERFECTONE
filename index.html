@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Importance of the Perfect One</title>
+  <title>Precision Stopwatch Challenge</title>
   <style>
     body {
       height: 100vh;
@@ -38,9 +38,8 @@
   </style>
 </head>
 <body>
-<p>Start the stopwatch.</p>
-  <p>Stop it at exactly 00:01.00</p>
-  <div class="time-display" id="timer">00:00</div>
+
+  <div class="time-display" id="timer">00:00:00</div>
   <div>
     <button onclick="startTimer()">START</button>
     <button onclick="stopTimer()">STOP</button>
@@ -53,14 +52,13 @@
     let timerInterval;
 
     const timerDisplay = document.getElementById("timer");
-    const targetSeconds = 60; // exactly 01:00
 
     function formatTime(ms) {
-      let totalSeconds = Math.floor(ms / 1000);
-      let minutes = Math.floor(totalSeconds / 60);
-      let seconds = totalSeconds % 60;
-      let centiseconds = Math.floor((ms % 1000) / 10);
-      return `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+      let totalCentiseconds = Math.floor(ms / 10);
+      let minutes = Math.floor(totalCentiseconds / 6000);
+      let seconds = Math.floor((totalCentiseconds % 6000) / 100);
+      let centiseconds = totalCentiseconds % 100;
+      return `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}:${String(centiseconds).padStart(2,'0')}`;
     }
 
     function updateDisplay() {
@@ -81,9 +79,9 @@
         clearInterval(timerInterval);
         timerInterval = null;
 
-        // Check if exactly 01:00 (60,000 ms)
-        if (elapsed >= 59990 && elapsed <= 60100) { // small tolerance ±10ms
-          window.location.href = "https://example.com"; // ← replace with  target
+        // Check if exactly 01:00.00 (60,000ms)
+        if (elapsed >= 59990 && elapsed <= 60010) { // ±10ms tolerance
+          window.location.href = "https://example.com"; // Replace with your target
         }
       }
     }
@@ -92,7 +90,7 @@
       clearInterval(timerInterval);
       timerInterval = null;
       elapsed = 0;
-      timerDisplay.textContent = "00:00";
+      timerDisplay.textContent = "00:00:00";
     }
   </script>
 
