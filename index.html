@@ -82,9 +82,9 @@
         running = false;
         toggleBtn.textContent = "START";
 
-        // Check if exactly 01:00.00
-        if (elapsed >= 59990 && elapsed <= 60010) {
-          window.location.href = "https://example.com"; // Replace with your target
+       // Check if within 1 second ±150ms
+        if (elapsed >= 59850 && elapsed <= 60150) {
+          window.location.href = "https://example.com"; // Replace with  target
         }
       }
     }
